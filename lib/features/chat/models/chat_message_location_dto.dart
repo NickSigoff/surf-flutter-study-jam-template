@@ -32,5 +32,6 @@ class ChatMessageGeolocationDto extends ChatMessageDto {
         );
 
   @override
-  String toString() => 'ChatMessageGeolocationDto(location: $location) extends ${super.toString()}';
+  String toString() =>
+      'ChatMessageGeolocationDto(location: $location) extends ${super.toString()}';
 }

@@ -26,7 +26,9 @@ class ChatAvatar extends StatelessWidget {
         child: Center(
           child: Text(
             userData.name != null
-                ? '${userData.name!.split(' ').first[0]}${userData.name!.split(' ').last[0]}'
+                ? userData.name!
+                    .split(' ')
+                    .first[0] //${userData.name!.split(' ').last[0]}'
                 : '',
             style: TextStyle(
               color: colorScheme.onPrimary,

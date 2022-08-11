@@ -19,7 +19,8 @@ class ChatGeolocationDto {
       : latitude = geopoint[0],
         longitude = geopoint[1];
   @override
-  String toString() => 'ChatGeolocationDto(latitude: $latitude, longitude: $longitude)';
+  String toString() =>
+      'ChatGeolocationDto(latitude: $latitude, longitude: $longitude)';
 
   /// Transforms dto to `List`.
   List<double> toGeopoint() => [latitude, longitude];

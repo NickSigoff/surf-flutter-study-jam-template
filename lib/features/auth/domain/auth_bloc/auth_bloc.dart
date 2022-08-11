@@ -18,7 +18,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<OnTapConfirmButtonAuthEvent>((event, emit) async {
       try {
         emit(AuthLoading());
-
         IAuthRepository repository = event.repository;
         TokenDto tokenDto = await repository.signIn(
             login: event.login, password: event.password);
@@ -32,6 +31,24 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(AuthSuccess(chatRepository: chatRepository));
       } catch (e) {
         emit(AuthError());
+      }
+    });
+
+    on<OnPageCreated>((event, emit) async {
+      try {
+        emit(AuthLoading());
+        String? token =
+            await SharedPreferencesService().getUserTokenSharedPreferences();
+
+        if (token == null) {
+          emit(AuthInitial());
+        } else {
+          ChatRepository chatRepository =
+              ChatRepository(StudyJamClient().getAuthorizedClient(token));
+          emit(AuthSuccess(chatRepository: chatRepository));
+        }
+      } catch (e) {
+        emit(AuthInitial());
       }
     });
   }

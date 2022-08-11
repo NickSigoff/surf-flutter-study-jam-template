@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import '../../../utils/main_colors.dart';
 
 class InputBlockAuthScreen extends StatelessWidget {
-  static final emailController = TextEditingController(text: 'NickSigoff');
-  static final passwordController = TextEditingController(text: 'dT9LOnoXVfaA');
+  static final emailController = TextEditingController();
+  static final passwordController = TextEditingController();
 
   const InputBlockAuthScreen({Key? key}) : super(key: key);
 
@@ -21,13 +21,16 @@ class InputBlockAuthScreen extends StatelessWidget {
             labelText: 'Логин',
             focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.all(Radius.circular(8)),
-                borderSide: BorderSide(color: MainColors.mainGreen, width: 2.0)),
+                borderSide:
+                    BorderSide(color: MainColors.mainGreen, width: 2.0)),
             enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.all(Radius.circular(8)),
                 borderSide: BorderSide(color: Colors.grey)),
           ),
         ),
-        const SizedBox(height: 16,),
+        const SizedBox(
+          height: 16,
+        ),
         TextField(
           controller: passwordController,
           keyboardType: TextInputType.emailAddress,
@@ -36,7 +39,8 @@ class InputBlockAuthScreen extends StatelessWidget {
             labelText: 'Пароль',
             focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.all(Radius.circular(8)),
-                borderSide: BorderSide(color: MainColors.mainGreen, width: 2.0)),
+                borderSide:
+                    BorderSide(color: MainColors.mainGreen, width: 2.0)),
             enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.all(Radius.circular(8)),
                 borderSide: BorderSide(color: Colors.grey)),

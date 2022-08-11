@@ -25,6 +25,12 @@ class AuthScreen extends StatefulWidget {
 }
 
 class _AuthScreenState extends State<AuthScreen> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<AuthBloc>().add(OnPageCreated());
+  }
+
   // TODO(task): Implement Auth screen.
   @override
   Widget build(BuildContext context) {
@@ -48,8 +54,7 @@ class _AuthScreenState extends State<AuthScreen> {
             context,
             MaterialPageRoute(
               builder: (_) {
-                return ChatScreen(
-                    chatRepository: state.chatRepository);
+                return ChatScreen(chatRepository: state.chatRepository);
               },
             ),
           );
@@ -91,9 +96,9 @@ class _AuthScreenState extends State<AuthScreen> {
         child: state is AuthLoading
             ? const Center(child: CircularProgressIndicator())
             : const Text(
-          'Далее',
-          style: TextStyle(color: Colors.white, fontSize: 20),
-        ),
+                'Далее',
+                style: TextStyle(color: Colors.white, fontSize: 20),
+              ),
       ),
     );
   }

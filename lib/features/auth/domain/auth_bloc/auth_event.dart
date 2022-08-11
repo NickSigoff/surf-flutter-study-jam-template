@@ -11,3 +11,5 @@ class OnTapConfirmButtonAuthEvent extends AuthEvent {
   OnTapConfirmButtonAuthEvent(
       {required this.login, required this.password, required this.repository});
 }
+
+class OnPageCreated extends AuthEvent {}

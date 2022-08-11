@@ -45,13 +45,13 @@ class LocationMessage extends StatelessWidget {
                     RichText(
                       text: TextSpan(
                           text:
-                          'Location is  longitude: ${chatData.location.longitude} latitude: ${chatData.location.latitude}\n',
+                              'Location is  longitude: ${chatData.location.longitude} latitude: ${chatData.location.latitude}\n',
                           style: const TextStyle(color: Colors.black),
                           children: [
                             TextSpan(
                               text: 'Открыть на карте',
-                              style: const TextStyle(
-                                  color: MainColors.mainGreen),
+                              style:
+                                  const TextStyle(color: MainColors.mainGreen),
                               recognizer: TapGestureRecognizer()
                                 ..onTap = () => Navigator.of(context).push(
                                     MaterialPageRoute(
@@ -76,5 +76,3 @@ class LocationMessage extends StatelessWidget {
     );
   }
 }
-
-
