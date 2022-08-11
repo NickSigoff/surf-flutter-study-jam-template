@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import '../../../map/screens/map_page.dart';
 import '../../../utils/main_colors.dart';
 import '../../models/chat_message_location_dto.dart';
-import '../../models/chat_user_local_dto.dart';
 import 'avatar_widget.dart';
 
 class LocationMessage extends StatelessWidget {
@@ -14,13 +13,9 @@ class LocationMessage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: Material(
-        color: chatData.chatUserDto is ChatUserLocalDto
-            ? colorScheme.primary.withOpacity(.1)
-            : null,
         child: Align(
           alignment: Alignment.topLeft,
           child: Container(

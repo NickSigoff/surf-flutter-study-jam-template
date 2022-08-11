@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../utils/main_colors.dart';
 import '../../models/chat_user_dto.dart';
 
 class ChatAvatar extends StatelessWidget {
@@ -20,7 +21,7 @@ class ChatAvatar extends StatelessWidget {
       width: _size,
       height: _size,
       child: Material(
-        color: colorScheme.primary,
+        color: _selectColor(userData.name),
         shape: const CircleBorder(),
         child: Center(
           child: Text(
@@ -36,5 +37,19 @@ class ChatAvatar extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Color _selectColor(String? name) {
+    if (name == null) {
+      return MainColors.mainGreen;
+    } else {
+      int sum = 0;
+      for (int i = 1; i < userData.name!.length; i++) {
+        sum += name.codeUnitAt(i);
+        sum *= 13;
+      }
+      String sumString = sum.toString();
+      return Color(int.parse("0xff${sumString.substring(0, 6)}"));
+    }
   }
 }

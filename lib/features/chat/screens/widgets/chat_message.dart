@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:surf_practice_chat_flutter/features/chat/models/chat_message_dto.dart';
+import 'package:surf_practice_chat_flutter/features/chat/models/chat_message_image_dto.dart';
 
 import '../../../utils/main_colors.dart';
 import '../../models/chat_user_local_dto.dart';
@@ -15,13 +16,9 @@ class ChatMessage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: Material(
-        color: chatData.chatUserDto is ChatUserLocalDto
-            ? colorScheme.primary.withOpacity(.1)
-            : null,
         child: Align(
           alignment: Alignment.topLeft,
           child: Container(
@@ -53,7 +50,9 @@ class ChatMessage extends StatelessWidget {
                           style: const TextStyle(fontWeight: FontWeight.bold),
                         ),
                         const SizedBox(height: 4),
-                        Text(chatData.message ?? ''),
+                        chatData is ChatMessageImageDto
+                            ? Text('12')
+                            : Text(chatData.message ?? ''),
                       ],
                     ),
                   ),

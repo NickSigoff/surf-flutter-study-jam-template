@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -9,7 +8,6 @@ import 'package:surf_practice_chat_flutter/features/chat/repository/chat_reposit
 
 import 'package:surf_practice_chat_flutter/features/chat/screens/widgets/chat_message.dart';
 import 'package:surf_practice_chat_flutter/features/chat/screens/widgets/location_message.dart';
-
 
 import '../../utils/main_colors.dart';
 import '../models/chat_geolocation_geolocation_dto.dart';
@@ -29,7 +27,6 @@ class ChatScreen extends StatefulWidget {
   State<ChatScreen> createState() => _ChatScreenState();
 }
 
-
 class _ChatScreenState extends State<ChatScreen> {
   final _nameEditingController = TextEditingController();
 
@@ -37,10 +34,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   Widget build(BuildContext context) {
-
-
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(48),
         child: _ChatAppBar(
@@ -98,6 +92,7 @@ class _ChatBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
+      padding: const EdgeInsets.symmetric(vertical: 16.0),
       itemCount: messages.length,
       itemBuilder: (_, index) {
         if (messages.elementAt(index) is ChatMessageGeolocationDto) {
