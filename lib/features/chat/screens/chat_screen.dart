@@ -1,14 +1,15 @@
-import 'package:flutter/gestures.dart';
+
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:surf_practice_chat_flutter/features/chat/models/chat_message_dto.dart';
 import 'package:surf_practice_chat_flutter/features/chat/models/chat_message_location_dto.dart';
-import 'package:surf_practice_chat_flutter/features/chat/models/chat_user_dto.dart';
-import 'package:surf_practice_chat_flutter/features/chat/models/chat_user_local_dto.dart';
+
 import 'package:surf_practice_chat_flutter/features/chat/repository/chat_repository.dart';
-import 'package:surf_practice_chat_flutter/features/map/screens/map_page.dart';
-import 'package:surf_practice_chat_flutter/services/shared_preferences_service.dart';
+
+import 'package:surf_practice_chat_flutter/features/chat/screens/widgets/chat_message.dart';
+import 'package:surf_practice_chat_flutter/features/chat/screens/widgets/location_message.dart';
+
 
 import '../../utils/main_colors.dart';
 import '../models/chat_geolocation_geolocation_dto.dart';
@@ -27,7 +28,7 @@ class ChatScreen extends StatefulWidget {
   @override
   State<ChatScreen> createState() => _ChatScreenState();
 }
-//IChatRepository.sendMessage
+
 
 class _ChatScreenState extends State<ChatScreen> {
   final _nameEditingController = TextEditingController();
@@ -36,10 +37,10 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
+
 
     return Scaffold(
-      backgroundColor: colorScheme.background,
+      backgroundColor: Colors.white,
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(48),
         child: _ChatAppBar(
@@ -96,17 +97,20 @@ class _ChatBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-        itemCount: messages.length,
-        itemBuilder: (_, index) {
-          if (messages.elementAt(index) is ChatMessageGeolocationDto) {
-            return _LocationMessage(
-                chatData:
-                    messages.elementAt(index) as ChatMessageGeolocationDto);
-          } else {
-            return _ChatMessage(chatData: messages.elementAt(index));
-          }
-        });
+    return ListView.separated(
+      itemCount: messages.length,
+      itemBuilder: (_, index) {
+        if (messages.elementAt(index) is ChatMessageGeolocationDto) {
+          return LocationMessage(
+              chatData: messages.elementAt(index) as ChatMessageGeolocationDto);
+        } else {
+          return ChatMessage(chatData: messages.elementAt(index));
+        }
+      },
+      separatorBuilder: (BuildContext context, int index) {
+        return const SizedBox(height: 16);
+      },
+    );
   }
 }
 
@@ -195,146 +199,6 @@ class _ChatAppBar extends StatelessWidget {
             icon: const Icon(Icons.refresh),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class _LocationMessage extends StatelessWidget {
-  final ChatMessageGeolocationDto chatData;
-
-  const _LocationMessage({Key? key, required this.chatData}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-    return Material(
-      color: chatData.chatUserDto is ChatUserLocalDto
-          ? colorScheme.primary.withOpacity(.1)
-          : null,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 18,
-          vertical: 18,
-        ),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _ChatAvatar(userData: chatData.chatUserDto),
-            const SizedBox(width: 16),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Text(
-                    chatData.chatUserDto.name ?? 'NS',
-                    style: const TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 4),
-                  RichText(
-                    text: TextSpan(
-                        text:
-                            'Location is  longitude: ${chatData.location.longitude} latitude: ${chatData.location.latitude}\n',
-                        style: const TextStyle(color: Colors.black),
-                        children: [
-                          TextSpan(
-                            text: 'Open google map',
-                            style: const TextStyle(color: MainColors.mainGreen),
-                            recognizer: TapGestureRecognizer()
-                              ..onTap = () => Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                      builder: (context) => MapPage(
-                                          location: chatData.location))),
-                          )
-                        ]),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _ChatMessage extends StatelessWidget {
-  final ChatMessageDto chatData;
-
-  const _ChatMessage({
-    required this.chatData,
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-    return Material(
-      color: chatData.chatUserDto is ChatUserLocalDto
-          ? colorScheme.primary.withOpacity(.1)
-          : null,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 18,
-          vertical: 18,
-        ),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _ChatAvatar(userData: chatData.chatUserDto),
-            const SizedBox(width: 16),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Text(
-                    chatData.chatUserDto.name ?? '',
-                    style: const TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(chatData.message ?? ''),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _ChatAvatar extends StatelessWidget {
-  static const double _size = 42;
-
-  final ChatUserDto userData;
-
-  const _ChatAvatar({
-    required this.userData,
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-
-    return SizedBox(
-      width: _size,
-      height: _size,
-      child: Material(
-        color: colorScheme.primary,
-        shape: const CircleBorder(),
-        child: Center(
-          child: Text(
-            userData.name != null
-                ? '${userData.name!.split(' ').first[0]}${userData.name!.split(' ').last[0]}'
-                : '',
-            style: TextStyle(
-              color: colorScheme.onPrimary,
-              fontWeight: FontWeight.bold,
-              fontSize: 24,
-            ),
-          ),
-        ),
       ),
     );
   }
