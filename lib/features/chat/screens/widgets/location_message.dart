@@ -13,67 +13,68 @@ class LocationMessage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-      child: Material(
-        child: Align(
-          alignment: Alignment.topLeft,
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(16.0),
-                topRight: Radius.circular(16.0),
-                bottomRight: Radius.circular(16.0),
-              ),
-              color: MainColors.mainGreen.withAlpha(50),
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+      child: Align(
+        alignment: Alignment.topLeft,
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(16.0),
+              topRight: Radius.circular(16.0),
+              bottomRight: Radius.circular(16.0),
             ),
-            padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 4.0),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 18,
-                vertical: 18,
-              ),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  ChatAvatar(userData: chatData.chatUserDto),
-                  const SizedBox(width: 16),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Text(
-                          chatData.chatUserDto.name ?? 'NS',
-                          style: const TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                        const SizedBox(height: 4),
-                        RichText(
-                          text: TextSpan(
-                              text:
-                                  'Location is  longitude: ${chatData.location.longitude} latitude: ${chatData.location.latitude}\n',
-                              style: const TextStyle(color: Colors.black),
-                              children: [
-                                TextSpan(
-                                  text: 'Открыть на карте',
-                                  style: const TextStyle(
-                                      color: MainColors.mainGreen),
-                                  recognizer: TapGestureRecognizer()
-                                    ..onTap = () => Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                            builder: (context) => MapPage(
-                                                location: chatData.location))),
-                                )
-                              ]),
-                        ),
-                      ],
+            color: MainColors.mainGreen.withAlpha(50),
+          ),
+          padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 4.0),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ChatAvatar(userData: chatData.chatUserDto),
+              const SizedBox(width: 16),
+              Flexible(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      chatData.chatUserDto.name ?? '',
+                      style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
-                  ),
-                ],
+                    const SizedBox(height: 8),
+                    RichText(
+                      text: TextSpan(
+                          text:
+                          'Location is  longitude: ${chatData.location.longitude} latitude: ${chatData.location.latitude}\n',
+                          style: const TextStyle(color: Colors.black),
+                          children: [
+                            TextSpan(
+                              text: 'Открыть на карте',
+                              style: const TextStyle(
+                                  color: MainColors.mainGreen),
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () => Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                        builder: (context) => MapPage(
+                                            location: chatData.location))),
+                            )
+                          ]),
+                    ),
+                    const SizedBox(height: 8.0),
+                    Text(
+                      chatData.createdDateTime.toString().substring(0, 19),
+                      style: const TextStyle(fontSize: 10),
+                      textAlign: TextAlign.end,
+                    ),
+                  ],
+                ),
               ),
-            ),
+            ],
           ),
         ),
       ),
     );
   }
 }
+
+
