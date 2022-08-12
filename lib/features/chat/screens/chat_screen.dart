@@ -8,6 +8,7 @@ import 'package:surf_practice_chat_flutter/features/chat/repository/chat_reposit
 
 import 'package:surf_practice_chat_flutter/features/chat/screens/widgets/chat_message.dart';
 import 'package:surf_practice_chat_flutter/features/chat/screens/widgets/location_message.dart';
+import 'package:surf_practice_chat_flutter/services/shared_preferences_service.dart';
 
 import '../../utils/main_colors.dart';
 import '../models/chat_geolocation_geolocation_dto.dart';
@@ -59,6 +60,8 @@ class _ChatScreenState extends State<ChatScreen> {
 
   Future<void> _onUpdatePressed() async {
     final messages = await widget.chatRepository.getMessages();
+    _nameEditingController.text =
+        await SharedPreferencesService().getUserNameSharedPreferences() ?? '';
     setState(() {
       _currentMessages = messages;
     });
@@ -189,6 +192,7 @@ class _ChatAppBar extends StatelessWidget {
       title: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
+          Text(controller.text),
           IconButton(
             onPressed: onUpdatePressed,
             icon: const Icon(Icons.refresh),

@@ -38,7 +38,7 @@ class _TopicsScreenState extends State<TopicsScreen> {
         return Scaffold(
             appBar: AppBar(
               backgroundColor: MainColors.mainGreen,
-              title: const Text('Чаты'),
+              title: Text(state is TopicSuccess ? state.userName ?? '' : ''),
               actions: [
                 IconButton(
                   icon: const Icon(Icons.add_circle_outline),
