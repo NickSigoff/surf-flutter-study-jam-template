@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:surf_practice_chat_flutter/features/auth/domain/auth_bloc/auth_bloc.dart';
 import 'package:surf_practice_chat_flutter/features/auth/repository/auth_repository.dart';
 import 'package:surf_practice_chat_flutter/features/auth/screens/auth_screen.dart';
+import 'package:surf_practice_chat_flutter/features/topics/domain/create_chat_bloc/create_chat_bloc.dart';
+import 'package:surf_practice_chat_flutter/features/topics/domain/topic_bloc.dart';
 import 'package:surf_study_jam/surf_study_jam.dart';
 
 void main() async {
@@ -21,6 +23,8 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => AuthBloc()),
+        BlocProvider(create: (_) => TopicBloc()),
+        BlocProvider(create: (_) => CreateChatBloc()),
       ],
       child: MaterialApp(
         home: AuthScreen(

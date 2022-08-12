@@ -23,14 +23,17 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         TokenDto tokenDto = await repository.signIn(
             login: event.login, password: event.password);
 
+        StudyJamClient client = StudyJamClient();
+
         ChatTopicsRepository chatTopicsRepository = ChatTopicsRepository(
-            StudyJamClient().getAuthorizedClient(tokenDto.token));
+            client.getAuthorizedClient(tokenDto.token));
 
         await SharedPreferencesService()
             .setUserTokenSharedPreferences(tokenDto.token);
 
         emit(AuthSuccess(topicRepository: chatTopicsRepository));
       } catch (e) {
+        print(e);
         emit(AuthError());
       }
     });
@@ -38,6 +41,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<OnPageCreated>((event, emit) async {
       try {
         emit(AuthLoading());
+
         String? token =
             await SharedPreferencesService().getUserTokenSharedPreferences();
 
@@ -46,6 +50,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         } else {
           ChatTopicsRepository chatTopicsRepository =
               ChatTopicsRepository(StudyJamClient().getAuthorizedClient(token));
+
           emit(AuthSuccess(topicRepository: chatTopicsRepository));
         }
       } catch (e) {
