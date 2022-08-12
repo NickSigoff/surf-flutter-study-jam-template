@@ -14,4 +14,10 @@ class TopicSuccess extends TopicState {
   TopicSuccess({required this.topicList, this.userName});
 }
 
+class TopicNavigateSuccess extends TopicState {
+  final ChatRepository chatRepo;
+
+  TopicNavigateSuccess({required this.chatRepo});
+}
+
 class TopicError extends TopicState {}

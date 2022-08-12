@@ -1,9 +1,9 @@
-import 'dart:async';
-
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:surf_practice_chat_flutter/services/shared_preferences_service.dart';
+import 'package:surf_study_jam/surf_study_jam.dart';
 
+import '../../chat/repository/chat_repository.dart';
 import '../models/chat_topic_dto.dart';
 import '../repository/chart_topics_repository.dart';
 
@@ -18,9 +18,26 @@ class TopicBloc extends Bloc<TopicEvent, TopicState> {
         emit(TopicLoading());
         Iterable<ChatTopicDto> topicList = await event.chatTopicsRepository
             .getTopics(topicsStartDate: DateTime(2022));
-        String? userName = await SharedPreferencesService().getUserNameSharedPreferences();
+        String? userName =
+            await SharedPreferencesService().getUserNameSharedPreferences();
         emit(TopicSuccess(topicList: topicList, userName: userName));
+      } catch (e) {
+        print(e);
+        emit(TopicError());
+      }
+    });
 
+    on<OnTapTopic>((event, emit) async {
+      try {
+        String token =
+            await SharedPreferencesService().getUserTokenSharedPreferences() ??
+                '';
+        StudyJamClient client = StudyJamClient().getAuthorizedClient(token);
+
+        ChatRepository chatRepository = ChatRepository(client);
+
+        emit(TopicNavigateSuccess(chatRepo: chatRepository));
+        emit(TopicInitial());
       } catch (e) {
         print(e);
         emit(TopicError());

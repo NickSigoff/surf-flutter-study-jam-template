@@ -9,4 +9,8 @@ class OnPageCreated extends TopicEvent {
   OnPageCreated({required this.chatTopicsRepository});
 }
 
-class OnTapTopic extends TopicEvent {}
+class OnTapTopic extends TopicEvent {
+  final int chatId;
+
+  OnTapTopic({required this.chatId});
+}

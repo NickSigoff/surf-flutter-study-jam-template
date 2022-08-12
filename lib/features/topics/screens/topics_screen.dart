@@ -33,7 +33,19 @@ class _TopicsScreenState extends State<TopicsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<TopicBloc, TopicState>(
+    return BlocConsumer<TopicBloc, TopicState>(
+      listener: (context, state) {
+        if (state is TopicNavigateSuccess) {
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => ChatScreen(
+                    chatRepository: state.chatRepo,
+                  )));
+        }
+        if (state is TopicInitial) {
+          context.read<TopicBloc>().add(
+              OnPageCreated(chatTopicsRepository: widget.chatTopicsRepository));
+        }
+      },
       builder: (context, state) {
         return Scaffold(
             appBar: AppBar(
@@ -54,19 +66,9 @@ class _TopicsScreenState extends State<TopicsScreen> {
                     padding: const EdgeInsets.symmetric(vertical: 16),
                     itemCount: state.topicList.length,
                     itemBuilder: (context, index) => GestureDetector(
-                      onTap: () async {
-                        ChatRepository chatRepository = ChatRepository(
-                            StudyJamClient().getAuthorizedClient(
-                                await SharedPreferencesService()
-                                        .getUserTokenSharedPreferences() ??
-                                    '')
-                              ..getChatsByIds(
-                                  [state.topicList.elementAt(index).id]));
-
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => ChatScreen(
-                                  chatRepository: chatRepository,
-                                )));
+                      onTap: () {
+                        context.read<TopicBloc>().add(OnTapTopic(
+                            chatId: state.topicList.elementAt(index).id));
                       },
                       child: ListTile(
                         leading: CircleAvatar(
@@ -95,5 +97,3 @@ class _TopicsScreenState extends State<TopicsScreen> {
     );
   }
 }
-//getChatsByIds(
-//                                   [state.topicList.elementAt(index).id])

@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
+import 'package:surf_practice_chat_flutter/features/topics/domain/topic_bloc.dart';
 import 'package:surf_practice_chat_flutter/services/shared_preferences_service.dart';
 import 'package:surf_study_jam/surf_study_jam.dart';
 
@@ -13,7 +14,7 @@ part 'create_chat_state.dart';
 class CreateChatBloc extends Bloc<CreateChatEvent, CreateChatState> {
   CreateChatBloc() : super(CreateChatInitial()) {
     on<OnCreateChatTap>((event, emit) async {
-      //  try {
+        try {
       emit(CreateChatLoading());
 
       String token =
@@ -29,10 +30,10 @@ class CreateChatBloc extends Bloc<CreateChatEvent, CreateChatState> {
       await chatTopicsRepository.createTopic(newTopic);
 
       emit(CreateChatSuccess());
-      // } catch (e) {
-      //   print(e);
-      //   emit(CreateChatError());
-      // }
+      } catch (e) {
+        print(e);
+        emit(CreateChatError());
+      }
     });
   }
 }
