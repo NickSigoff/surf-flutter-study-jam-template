@@ -51,7 +51,8 @@ class ChatAvatar extends StatelessWidget {
         sum *= 13;
       }
       String sumString = sum.toString();
-      return Color(int.parse("0xff${sumString.substring(0, 6)}"));
+      return Color(int.parse(
+          "0xff${sumString.substring(0, sumString.length >= 6 ? 6 : sumString.length)}"));
     }
   }
 }
