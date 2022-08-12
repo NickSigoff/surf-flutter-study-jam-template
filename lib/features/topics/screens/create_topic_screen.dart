@@ -7,6 +7,11 @@ class CreateTopicScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    throw UnimplementedError();
+    return Scaffold(
+      appBar: AppBar(),
+      body: ListView.builder(
+        itemBuilder: (context, index) => Container(),
+      ),
+    );
   }
 }

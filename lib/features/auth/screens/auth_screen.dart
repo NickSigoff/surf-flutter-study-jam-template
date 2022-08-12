@@ -4,6 +4,7 @@ import 'package:surf_practice_chat_flutter/features/auth/domain/auth_bloc/auth_b
 import 'package:surf_practice_chat_flutter/features/auth/repository/auth_repository.dart';
 import 'package:surf_practice_chat_flutter/features/auth/screens/widgets/input_bloc_auth_screen.dart';
 import 'package:surf_practice_chat_flutter/features/chat/screens/chat_screen.dart';
+import 'package:surf_practice_chat_flutter/features/topics/screens/topics_screen.dart';
 
 import '../../utils/main_colors.dart';
 
@@ -54,7 +55,9 @@ class _AuthScreenState extends State<AuthScreen> {
             context,
             MaterialPageRoute(
               builder: (_) {
-                return ChatScreen(chatRepository: state.chatRepository);
+                return TopicsScreen(
+                  chatTopicsRepository: state.topicRepository,
+                );
               },
             ),
           );
@@ -103,18 +106,3 @@ class _AuthScreenState extends State<AuthScreen> {
     );
   }
 }
-
-// void _pushToChat(BuildContext context, TokenDto token) {
-//   Navigator.push<ChatScreen>(
-//     context,
-//     MaterialPageRoute(
-//       builder: (_) {
-//         return ChatScreen(
-//           chatRepository: ChatRepository(
-//             StudyJamClient().getAuthorizedClient(token.token),
-//           ),
-//         );
-//       },
-//     ),
-//   );
-// }

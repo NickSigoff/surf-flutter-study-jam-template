@@ -8,9 +8,9 @@ class AuthInitial extends AuthState {}
 class AuthLoading extends AuthState {}
 
 class AuthSuccess extends AuthState {
-  final ChatRepository chatRepository;
+  final ChatTopicsRepository topicRepository;
 
-  AuthSuccess({required this.chatRepository});
+  AuthSuccess({required this.topicRepository});
 }
 
 class AuthError extends AuthState {}

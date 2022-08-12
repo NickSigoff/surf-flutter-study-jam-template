@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:surf_practice_chat_flutter/features/auth/models/token_dto.dart';
 import 'package:surf_practice_chat_flutter/features/chat/repository/chat_repository.dart';
+import 'package:surf_practice_chat_flutter/features/topics/repository/chart_topics_repository.dart';
 import 'package:surf_practice_chat_flutter/services/shared_preferences_service.dart';
 import 'package:surf_study_jam/surf_study_jam.dart';
 
@@ -22,13 +23,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         TokenDto tokenDto = await repository.signIn(
             login: event.login, password: event.password);
 
-        ChatRepository chatRepository = ChatRepository(
+        ChatTopicsRepository chatTopicsRepository = ChatTopicsRepository(
             StudyJamClient().getAuthorizedClient(tokenDto.token));
 
         await SharedPreferencesService()
             .setUserTokenSharedPreferences(tokenDto.token);
 
-        emit(AuthSuccess(chatRepository: chatRepository));
+        emit(AuthSuccess(topicRepository: chatTopicsRepository));
       } catch (e) {
         emit(AuthError());
       }
@@ -43,9 +44,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         if (token == null) {
           emit(AuthInitial());
         } else {
-          ChatRepository chatRepository =
-              ChatRepository(StudyJamClient().getAuthorizedClient(token));
-          emit(AuthSuccess(chatRepository: chatRepository));
+          ChatTopicsRepository chatTopicsRepository =
+              ChatTopicsRepository(StudyJamClient().getAuthorizedClient(token));
+          emit(AuthSuccess(topicRepository: chatTopicsRepository));
         }
       } catch (e) {
         emit(AuthInitial());
