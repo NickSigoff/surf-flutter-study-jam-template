@@ -4,3 +4,9 @@ part of 'create_chat_bloc.dart';
 abstract class CreateChatState {}
 
 class CreateChatInitial extends CreateChatState {}
+
+class CreateChatLoading extends CreateChatState {}
+
+class CreateChatSuccess extends CreateChatState {}
+
+class CreateChatError extends CreateChatState {}

@@ -34,5 +34,6 @@ class ChatTopicDto {
         description = sjChatDto.description;
 
   @override
-  String toString() => 'ChatTopicDto(id: $id, name: $name, description: $description)';
+  String toString() =>
+      'ChatTopicDto(id: $id, name: $name, description: $description)';
 }

@@ -15,8 +15,8 @@ class TopicBloc extends Bloc<TopicEvent, TopicState> {
     on<OnPageCreated>((event, emit) async {
       try {
         emit(TopicLoading());
-        Iterable<ChatTopicDto> topicList =
-            await event.chatTopicsRepository.getTopics(topicsStartDate: DateTime(2022));
+        Iterable<ChatTopicDto> topicList = await event.chatTopicsRepository
+            .getTopics(topicsStartDate: DateTime(2022));
         emit(TopicSuccess(topicList: topicList));
       } catch (e) {
         print(e);

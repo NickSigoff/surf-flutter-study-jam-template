@@ -41,12 +41,14 @@ class ChatTopicsRepository implements IChatTopicsRepository {
     }
     final topics = await _studyJamClient.getChatsByIds(topicsIds);
 
-    return topics.map((sjChatDto) => ChatTopicDto.fromSJClient(sjChatDto: sjChatDto));
+    return topics
+        .map((sjChatDto) => ChatTopicDto.fromSJClient(sjChatDto: sjChatDto));
   }
 
   @override
   Future<ChatTopicDto> createTopic(ChatTopicSendDto chatTopicSendDto) async {
-    final sjChatDto = await _studyJamClient.createChat(chatTopicSendDto.toSjChatSendsDto());
+    final sjChatDto =
+        await _studyJamClient.createChat(chatTopicSendDto.toSjChatSendsDto());
 
     return ChatTopicDto.fromSJClient(sjChatDto: sjChatDto);
   }

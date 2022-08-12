@@ -30,5 +30,6 @@ class ChatTopicSendDto {
       );
 
   @override
-  String toString() => 'ChatTopicSendDto(name: $name, description: $description)';
+  String toString() =>
+      'ChatTopicSendDto(name: $name, description: $description)';
 }

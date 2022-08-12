@@ -1,9 +1,6 @@
-import 'dart:async';
-
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:surf_practice_chat_flutter/features/auth/models/token_dto.dart';
-import 'package:surf_practice_chat_flutter/features/chat/repository/chat_repository.dart';
 import 'package:surf_practice_chat_flutter/features/topics/repository/chart_topics_repository.dart';
 import 'package:surf_practice_chat_flutter/services/shared_preferences_service.dart';
 import 'package:surf_study_jam/surf_study_jam.dart';
@@ -23,10 +20,16 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         TokenDto tokenDto = await repository.signIn(
             login: event.login, password: event.password);
 
-        StudyJamClient client = StudyJamClient();
+        StudyJamClient client =
+            StudyJamClient().getAuthorizedClient(tokenDto.token);
 
-        ChatTopicsRepository chatTopicsRepository = ChatTopicsRepository(
-            client.getAuthorizedClient(tokenDto.token));
+        ChatTopicsRepository chatTopicsRepository =
+            ChatTopicsRepository(client);
+
+        SjUserDto? user = await client.getUser();
+
+        await SharedPreferencesService()
+            .setUserNameSharedPreferences(user?.username ?? 'no user');
 
         await SharedPreferencesService()
             .setUserTokenSharedPreferences(tokenDto.token);
